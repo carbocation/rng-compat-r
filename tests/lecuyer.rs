@@ -6,39 +6,7 @@ const FIXTURE: &str = include_str!("fixtures/lecuyer-r-4.6.0.txt");
 
 #[test]
 fn lecuyer_sequence_state_and_stream_jumps_match_r_4_6() {
-    let fixture = common::Fixture::parse(FIXTURE);
-    assert_eq!(fixture.field("target_version"), "4.6.0");
-
-    let mut rng = RRng::from_seed_with_kind(42, RUniformKind::LecuyerCmrg);
-    assert_eq!(rng.random_seed(), fixture.i32s("initial_state"));
-    assert_eq!(
-        rng.next_rng_stream().unwrap().random_seed(),
-        fixture.i32s("next_stream")
-    );
-    assert_eq!(
-        rng.next_rng_substream().unwrap().random_seed(),
-        fixture.i32s("next_substream")
-    );
-
-    let uniforms: Vec<_> = (0..100).map(|_| rng.runif().to_bits()).collect();
-    assert_eq!(uniforms, fixture.hex_u64("runif_bits"));
-    assert_eq!(rng.random_seed(), fixture.i32s("state_after_runif"));
-
-    let normals: Vec<_> = (0..100).map(|_| rng.rnorm(0.0, 1.0).to_bits()).collect();
-    for (index, (&actual, expected)) in normals
-        .iter()
-        .zip(fixture.hex_u64("rnorm_bits"))
-        .enumerate()
-    {
-        assert!(
-            actual.abs_diff(expected) <= 5,
-            "rnorm[{index}] differs by more than 5 ULPs: {actual:016x} != {expected:016x}"
-        );
-    }
-    assert_eq!(rng.random_seed(), fixture.i32s("state_after_rnorm"));
-
-    assert_eq!(rng.permutation(20).unwrap(), fixture.usizes("permutation"));
-    assert_eq!(rng.random_seed(), fixture.i32s("state_after_permutation"));
+    common::assert_lecuyer_fixture(FIXTURE);
 }
 
 #[test]

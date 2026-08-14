@@ -79,3 +79,8 @@ jobs:
           RNG_COMPAT_REQUIRE_R: "1"
           RNG_COMPAT_R_VERSION: ${{ matrix.rng-version }}
         run: cargo test --test live_r -- --nocapture
+      - name: Compare pnorm and L'Ecuyer-CMRG with R 4.6.1
+        if: matrix.rng-version == '4.6.0'
+        env:
+          RNG_COMPAT_REQUIRE_R: "1"
+        run: cargo test --test live_r_extended -- --nocapture
