@@ -19,6 +19,41 @@ jobs:
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test --all-targets
 
+  deterministic-math:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            rustflags: "-C target-feature=-avx,-avx2,-fma"
+            label: x86-64 baseline
+          - os: ubuntu-latest
+            rustflags: "-C target-feature=+avx2,+fma"
+            label: x86-64 AVX2 and FMA
+          - os: macos-14
+            rustflags: ""
+            label: AArch64 macOS
+    name: deterministic math (${{ matrix.label }})
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Compare pinned bit patterns
+        env:
+          RUSTFLAGS: ${{ matrix.rustflags }}
+        run: cargo test --test deterministic
+
+  deterministic-math-avx512-build:
+    name: deterministic math (x86-64 AVX-512 build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build pinned tests with AVX-512 and FMA enabled
+        env:
+          RUSTFLAGS: "-C target-feature=+avx512f,+fma"
+        run: cargo test --test deterministic --no-run
+
   released-r:
     runs-on: ubuntu-22.04
     strategy:

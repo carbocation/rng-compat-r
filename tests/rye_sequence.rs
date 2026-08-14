@@ -9,7 +9,7 @@ fn rye_optimizer_rng_call_order_matches_r() {
     let fixture = common::Fixture::parse(FIXTURE);
     assert_eq!(
         fixture.field("source_commit"),
-        "539b818c9b6010e65b63d829a6bf775c1d10f962"
+        "2541fe03a163da92ce9279d87bf75a089b5ebf60"
     );
 
     let mut rng = RRng::from_seed(42).with_version(RVersion::R4_6);
@@ -20,9 +20,9 @@ fn rye_optimizer_rng_call_order_matches_r() {
     let mut acceptance_uniforms = Vec::with_capacity(50);
 
     for _ in 0..50 {
-        alpha_indices.push(rng.permutation(7).unwrap()[0]);
+        alpha_indices.push(rng.sample_index(7) + 1);
         alpha_normals.push(rng.rnorm(0.0, 1.0).to_bits());
-        weight_indices.push(rng.permutation(11).unwrap()[0]);
+        weight_indices.push(rng.sample_index(11) + 1);
         weight_normals.push(rng.rnorm(0.0, 1.0).to_bits());
         // Rye calls pnorm() immediately before this; it consumes no RNG state.
         acceptance_uniforms.push(rng.runif().to_bits());
