@@ -3,15 +3,18 @@ name = "rng-compat-r"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.74"
-description = "Bit-compatible implementations of R's default random-number generators"
+description = "R-compatible random-number generators, streams, sampling, and normal probabilities"
 license = "GPL-2.0-or-later"
 repository = "https://github.com/carbocation/rng-compat-r"
-keywords = ["r", "rng", "mersenne-twister", "reproducibility"]
+keywords = ["r", "rng", "mersenne-twister", "lecuyer", "reproducibility"]
 categories = ["algorithms", "science"]
 
 [lib]
 name = "rng_compat_r"
 path = "src/lib.rs"
+
+[dependencies]
+libm = "=0.2.16"
 
 [lints.rust]
 unsafe_code = "forbid"
