@@ -51,8 +51,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build pinned tests with AVX-512 and FMA enabled
         env:
-          RUSTFLAGS: "-C target-feature=+avx512f,+fma"
-        run: cargo test --test deterministic --no-run
+          CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C target-feature=+avx512f,+fma"
+        run: cargo test --target x86_64-unknown-linux-gnu --test deterministic --no-run
 
   released-r:
     runs-on: ubuntu-22.04
