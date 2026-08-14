@@ -104,12 +104,6 @@ R 4.6.1 fixtures separately cover `pnorm`, L'Ecuyer-CMRG state and stream
 jumps, and deterministic-math bit patterns. Uniforms, sampled indices,
 permutations, stream states, and every serialized state are compared exactly.
 
-The Rye regression fixture follows the optimizer call order at Rye commit
-`2541fe03a163da92ce9279d87bf75a089b5ebf60`: alpha `sample.int(n, 1)`, normal,
-weight `sample.int(n, 1)`, normal, `pnorm`, then acceptance uniform. Its Rust
-counterpart uses `sample_index()` and verifies the final `.Random.seed`
-exactly.
-
 ## Provenance and license
 
 The algorithms are ports of the GPL-licensed implementations in R's
