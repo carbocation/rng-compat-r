@@ -26,7 +26,7 @@ The initial implementation covers:
 - default Mersenne Twister `runif()` output;
 - default inversion-based `rnorm()` output;
 - modern rejection sampling from R 3.6.0 onward;
-- explicit compatibility modes through the current R 4.6 release line;
+- explicit compatibility modes for R 3.5, 3.6, 4.0, 4.5, and 4.6;
 - the pre-3.6 rounding sampler for migration fixtures;
 - `sample.int()` with and without replacement, including full permutations;
 - `.Random.seed` serialization and restoration.
@@ -51,8 +51,7 @@ uniforms and exact equality for every serialized state and discrete result.
 Golden fixtures cover R 3.5, 3.6, 4.0, 4.5, and 4.6. The historical fixtures
 record their generator runtime and use R's `RNGversion()` compatibility mode;
 the 4.6 fixture was generated directly with official R 4.6.1. CI additionally
-runs the generator under released R 3.5.3, 3.6.3, 4.0.5, and the current R
-release.
+runs the generator under R 3.5.3, 3.6.3, 4.0.5, and 4.6.1.
 
 The Rye regression fixture follows the optimizer call order at Rye commit
 `539b818c9b6010e65b63d829a6bf775c1d10f962`: full alpha permutation, normal,
