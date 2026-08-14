@@ -182,6 +182,10 @@ enum UniformState {
 }
 
 /// An R-compatible random-number generator and its serializable state.
+///
+/// `RRng` is [`Send`] and [`Sync`]. Random draws require `&mut self`, so native
+/// parallel code should move independent generators to worker threads. A
+/// shared mutable generator still requires synchronization.
 #[derive(Clone, Debug)]
 pub struct RRng {
     uniform: UniformState,
@@ -719,6 +723,12 @@ mod tests {
                 actual: MT_LEN + 1,
             }
         );
+    }
+
+    #[test]
+    fn rng_is_send_and_sync() {
+        const fn assert_send_sync<T: Send + Sync>() {}
+        assert_send_sync::<RRng>();
     }
 
     #[test]

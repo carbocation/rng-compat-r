@@ -68,6 +68,11 @@ The jump methods follow R's `parallel::nextRNGStream()` (`2^127` draws) and
 leave the source stream unchanged, matching the state-to-state behavior of the
 R functions.
 
+`RRng` implements `Send + Sync`. Independent generators can be moved to native
+worker threads; L'Ecuyer stream or substream jumps provide reproducible,
+non-overlapping state sequences for that pattern. Random draws require mutable
+access, so sharing one generator between threads still requires synchronization.
+
 ## Floating-point modes
 
 Normal results preserve R's AS 241 coefficients and evaluation order, but exact
