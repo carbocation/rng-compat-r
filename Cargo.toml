@@ -1,0 +1,20 @@
+[package]
+name = "rng-compat-r"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "Bit-compatible implementations of R's default random-number generators"
+license = "GPL-2.0-or-later"
+repository = "https://github.com/carbocation/rng-compat-r"
+keywords = ["r", "rng", "mersenne-twister", "reproducibility"]
+categories = ["algorithms", "science"]
+
+[lib]
+name = "rng_compat_r"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
